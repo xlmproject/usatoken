@@ -1,5 +1,5 @@
 # Stellar Asset Metadata for USA Token
-# Host this file at: https://yourdomain.com/.well-known/stellar.toml
+# Host this file at: https://usaxlm.pages.dev/.well-known/stellar.toml
 
 NETWORK_PASSPHRASE="Public Global Stellar Network ; September 2015"
 
@@ -16,20 +16,19 @@ display_decimals=7
 name="USA Token"
 desc="The sovereign digital asset of the new era. 300 billion USA tokens minted on the Stellar Blockchain."
 conditions="Fixed supply of 300,000,000,000 USA tokens. No additional issuance."
-image="https://yourdomain.com/logo.png"
+image="https://usaxlm.pages.dev/logo.png"
 
 # Documentation
 [DOCUMENTATION]
 org_name="USA Token"
-org_url="https://yourdomain.com"
-org_logo="https://yourdomain.com/logo.png"
+org_url="https://usaxlm.pages.dev"
+org_logo="https://usaxlm.pages.dev/logo.png"
 org_description="USA Token - Sovereign digital asset on Stellar Network"
-org_twitter="https://twitter.com/yourhandle"
-org_github="https://github.com/yourrepo"
+org_twitter="https://twitter.com/usaxlm"
+org_github="https://github.com/usaxlm"
 
 # Contact information (optional but recommended)
 [[POINTS_OF_CONTACT]]
 name="USA Token Team"
-email="contact@yourdomain.com"
-keybase="yourkeybase"
-telegram="yourtelegram"
+keybase="usaxlm"
+telegram="usaxlm"
