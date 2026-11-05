@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>USA Token | Stellar Blockchain | 300B Supply</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;500;700&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#000814;
+    --bg-1:#0a0e27;
+    --bg-2:#050816;
+    --red:#ff1744;
+    --red-2:#ff2a6d;
+    --blue:#05d9e8;
+    --blue-2:#00f0ff;
+    --gold:#ffd700;
+    --white:#f5f7ff;
+    --muted:#8b92b8;
+    --grid:rgba(5,217,232,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg-0);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- STARFIELD ---------- */
+  #starfield{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(255,23,68,.12), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(5,217,232,.12), transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255,215,0,.04), transparent 60%),
+      linear-gradient(180deg, #000814 0%, #050816 50%, #0a0e27 100%);
+  }
+  .star{
+    position:absolute;background:#fff;border-radius:50%;
+    box-shadow:0 0 6px rgba(255,255,255,.8);
+    animation:twinkle 3s infinite ease-in-out;
+  }
+  .star.red{background:var(--red);box-shadow:0 0 8px var(--red)}
+  .star.blue{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+  .star.gold{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+  @keyframes twinkle{
+    0%,100%{opacity:.3;transform:scale(1)}
+    50%{opacity:1;transform:scale(1.4)}
+  }
+
+  /* Grid overlay */
+  .grid-overlay{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center, black 30%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  /* Scanlines */
+  .scanlines{
+    position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.02) 0px,
+      rgba(255,255,255,.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    mix-blend-mode:overlay;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 5%;
+    backdrop-filter:blur(14px);
+    background:rgba(0,8,20,.55);
+    border-bottom:1px solid rgba(5,217,232,.15);
+  }
+  .logo{display:flex;align-items:center;gap:12px;font-family:'Orbitron';font-weight:800;font-size:22px;letter-spacing:2px}
+  .logo-flag{
+    width:44px;height:44px;border-radius:50%;
+    background:
+      linear-gradient(180deg,
+        #b22234 0 7.69%,
+        #fff 7.69% 15.38%,
+        #b22234 15.38% 23.07%,
+        #fff 23.07% 30.76%,
+        #b22234 30.76% 38.46%,
+        #fff 38.46% 46.15%,
+        #b22234 46.15% 53.84%,
+        #fff 53.84% 61.53%,
+        #b22234 61.53% 69.23%,
+        #fff 69.23% 76.92%,
+        #b22234 76.92% 84.61%,
+        #fff 84.61% 92.30%,
+        #b22234 92.30% 100%);
+    position:relative;overflow:hidden;
+    box-shadow:0 0 18px rgba(255,23,68,.6), inset 0 0 0 2px rgba(5,217,232,.5);
+    animation:flagPulse 3s infinite;
+  }
+  .logo-flag::before{
+    content:"";position:absolute;top:0;left:0;width:45%;height:53.84%;
+    background:#3c3b6e;
+  }
+  .logo-flag::after{
+    content:"★";position:absolute;top:6%;left:6%;
+    color:#fff;font-size:10px;line-height:1;
+    text-shadow:
+      10px 0 #fff, 20px 0 #fff,
+      5px 10px #fff, 15px 10px #fff,
+      0 20px #fff, 10px 20px #fff, 20px 20px #fff;
+  }
+  @keyframes flagPulse{
+    0%,100%{box-shadow:0 0 18px rgba(255,23,68,.6), inset 0 0 0 2px rgba(5,217,232,.5)}
+    50%{box-shadow:0 0 28px rgba(5,217,232,.8), inset 0 0 0 2px rgba(255,23,68,.6)}
+  }
+  .logo span.usa{
+    background:linear-gradient(90deg,#fff 0%,var(--red) 50%,var(--blue) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 6px rgba(5,217,232,.5));
+  }
+  .nav-links{display:flex;gap:32px;align-items:center}
+  .nav-links a{
+    font-family:'Rajdhani';font-weight:500;font-size:15px;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--muted);transition:.3s;position:relative;
+  }
+  .nav-links a:hover{color:var(--blue-2);text-shadow:0 0 8px var(--blue)}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;
+    background:var(--blue);transition:.3s;
+  }
+  .nav-links a:hover::after{width:100%}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 28px;font-family:'Orbitron';font-weight:700;
+    font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    border:none;cursor:pointer;position:relative;overflow:hidden;
+    transition:.3s;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--red) 0%,#b22234 100%);
+    color:#fff;
+    box-shadow:0 0 0 2px rgba(5,217,232,.3), 0 0 30px rgba(255,23,68,.4);
+    clip-path:polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  .btn-primary::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--blue-2) 100%);
+    opacity:0;transition:.3s;
+  }
+  .btn-primary:hover::before{opacity:1}
+  .btn-primary:hover{box-shadow:0 0 0 2px var(--blue), 0 0 40px var(--blue);transform:translateY(-2px)}
+  .btn-primary span{position:relative;z-index:1}
+
+  .btn-ghost{
+    background:transparent;color:var(--blue-2);
+    border:1px solid rgba(5,217,232,.4);
+    clip-path:polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+  .btn-ghost:hover{background:rgba(5,217,232,.1);border-color:var(--blue);box-shadow:0 0 20px rgba(5,217,232,.4)}
+
+  .menu-toggle{display:none;background:none;border:none;color:var(--blue);font-size:24px;cursor:pointer}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;z-index:5;
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:120px 5% 80px;
+    text-align:center;
+  }
+  .hero-inner{max-width:1200px;width:100%}
+  .tag{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 18px;border:1px solid rgba(5,217,232,.3);
+    background:rgba(5,217,232,.05);
+    font-family:'Rajdhani';font-size:13px;letter-spacing:3px;
+    color:var(--blue-2);text-transform:uppercase;
+    margin-bottom:28px;
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+  .tag .dot{width:8px;height:8px;background:var(--blue);border-radius:50%;box-shadow:0 0 10px var(--blue);animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  h1{
+    font-family:'Orbitron';font-weight:900;
+    font-size:clamp(42px,8vw,110px);
+    line-height:.95;letter-spacing:-2px;
+    margin-bottom:24px;
+    background:linear-gradient(180deg,#fff 0%,#fff 40%,var(--red) 70%,var(--blue) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 30px rgba(255,23,68,.3));
+    position:relative;
+  }
+  h1 .glitch{
+    position:relative;display:inline-block;
+    animation:glitch 4s infinite;
+  }
+  @keyframes glitch{
+    0%,92%,100%{transform:translate(0);filter:drop-shadow(0 0 30px rgba(255,23,68,.3))}
+    93%{transform:translate(-2px,1px);filter:drop-shadow(2px 0 0 var(--red)) drop-shadow(-2px 0 0 var(--blue))}
+    94%{transform:translate(2px,-1px);filter:drop-shadow(-2px 0 0 var(--red)) drop-shadow(2px 0 0 var(--blue))}
+    95%{transform:translate(0)}
+  }
+  .hero-sub{
+    font-family:'Rajdhani';font-size:clamp(16px,2vw,22px);
+    color:var(--muted);max-width:720px;margin:0 auto 40px;
+    line-height:1.6;letter-spacing:.5px;
+  }
+  .hero-sub b{color:var(--blue-2);font-weight:500}
+
+  .cta-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+
+  /* Big Flag Logo Center */
+  .flag-logo{
+    width:220px;height:220px;margin:0 auto 40px;
+    border-radius:50%;position:relative;
+    background:
+      linear-gradient(180deg,
+        #b22234 0 7.69%, #fff 7.69% 15.38%,
+        #b22234 15.38% 23.07%, #fff 23.07% 30.76%,
+        #b22234 30.76% 38.46%, #fff 38.46% 46.15%,
+        #b22234 46.15% 53.84%, #fff 53.84% 61.53%,
+        #b22234 61.53% 69.23%, #fff 69.23% 76.92%,
+        #b22234 76.92% 84.61%, #fff 84.61% 92.30%,
+        #b22234 92.30% 100%);
+    box-shadow:
+      0 0 0 3px rgba(5,217,232,.4),
+      0 0 60px rgba(255,23,68,.5),
+      0 0 120px rgba(5,217,232,.3),
+      inset 0 0 40px rgba(0,0,0,.4);
+    animation:flagFloat 6s ease-in-out infinite;
+  }
+  .flag-logo::before{
+    content:"";position:absolute;top:0;left:0;width:45%;height:53.84%;
+    background:#3c3b6e;
+    box-shadow:inset 0 0 20px rgba(0,0,0,.3);
+  }
+  .flag-logo::after{
+    content:"★ ★ ★\A★ ★ ★\A★ ★ ★\A★ ★ ★\A★ ★ ★";
+    white-space:pre;
+    position:absolute;top:5%;left:4%;
+    color:#fff;font-size:11px;line-height:1.8;letter-spacing:3px;
+    text-shadow:0 0 4px rgba(255,255,255,.6);
+  }
+  @keyframes flagFloat{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-12px) rotate(2deg)}
+  }
+  .flag-logo .ring{
+    position:absolute;inset:-20px;border:1px dashed rgba(5,217,232,.3);
+    border-radius:50%;animation:spin 20s linear infinite;
+  }
+  .flag-logo .ring2{
+    position:absolute;inset:-40px;border:1px solid rgba(255,23,68,.2);
+    border-radius:50%;animation:spin 30s linear infinite reverse;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- STATS ---------- */
+  .stats{
+    position:relative;z-index:5;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;max-width:1200px;margin:0 auto;padding:0 5% 80px;
+  }
+  .stat-card{
+    background:linear-gradient(135deg,rgba(10,14,39,.8),rgba(5,8,22,.9));
+    border:1px solid rgba(5,217,232,.2);
+    padding:28px;position:relative;overflow:hidden;
+    clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+    transition:.4s;
+  }
+  .stat-card::before{
+    content:"";position:absolute;top:0;left:0;width:100%;height:2px;
+    background:linear-gradient(90deg,transparent,var(--blue),transparent);
+    animation:scan 3s linear infinite;
+  }
+  @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .stat-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 10px 40px rgba(5,217,232,.2)}
+  .stat-label{
+    font-family:'Rajdhani';font-size:12px;letter-spacing:3px;
+    color:var(--muted);text-transform:uppercase;margin-bottom:10px;
+  }
+  .stat-value{
+    font-family:'Orbitron';font-weight:800;
+    font-size:clamp(22px,3vw,32px);
+    background:linear-gradient(90deg,var(--blue-2),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat-sub{font-size:12px;color:var(--muted);margin-top:6px;font-family:'Rajdhani';letter-spacing:1px}
+
+  /* ---------- SECTION ---------- */
+  section.block{position:relative;z-index:5;padding:100px 5%;max-width:1200px;margin:0 auto}
+  .section-title{
+    font-family:'Orbitron';font-weight:800;
+    font-size:clamp(32px,5vw,56px);
+    margin-bottom:16px;letter-spacing:-1px;
+    background:linear-gradient(90deg,#fff,var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .section-sub{color:var(--muted);max-width:640px;margin-bottom:50px;font-family:'Rajdhani';font-size:17px;letter-spacing:.5px}
+
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+  .feature{
+    padding:36px 28px;
+    background:linear-gradient(135deg,rgba(10,14,39,.6),rgba(5,8,22,.8));
+    border:1px solid rgba(5,217,232,.15);
+    position:relative;transition:.4s;
+  }
+  .feature::after{
+    content:"";position:absolute;top:0;left:0;width:30px;height:30px;
+    border-top:2px solid var(--red);border-left:2px solid var(--red);
+  }
+  .feature::before{
+    content:"";position:absolute;bottom:0;right:0;width:30px;height:30px;
+    border-bottom:2px solid var(--blue);border-right:2px solid var(--blue);
+  }
+  .feature:hover{transform:translateY(-6px);border-color:var(--blue);box-shadow:0 20px 50px rgba(5,217,232,.15)}
+  .feature-icon{
+    width:56px;height:56px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.3);
+    margin-bottom:20px;font-size:24px;color:var(--red);
+    clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+  .feature h3{font-family:'Orbitron';font-size:18px;margin-bottom:12px;letter-spacing:1px}
+  .feature p{color:var(--muted);font-size:15px;line-height:1.7;font-family:'Rajdhani'}
+
+  /* ---------- TOKENOMICS ---------- */
+  .tokenomics-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .token-bar{height:36px;background:rgba(5,8,22,.8);border:1px solid rgba(5,217,232,.2);position:relative;overflow:hidden;margin-bottom:14px;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+  .token-bar .fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--red),var(--blue));
+    display:flex;align-items:center;padding:0 16px;
+    font-family:'Orbitron';font-size:12px;font-weight:700;letter-spacing:1px;
+    position:relative;overflow:hidden;
+  }
+  .token-bar .fill::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+    animation:shine 2s linear infinite;
+  }
+  @keyframes shine{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .token-info{font-family:'Rajdhani';color:var(--muted);font-size:15px;line-height:1.8}
+  .token-info strong{color:var(--white);font-family:'Orbitron';font-size:14px;letter-spacing:1px}
+
+  /* ---------- HOW TO BUY ---------- */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;counter-reset:step}
+  .step{
+    padding:32px 24px;background:rgba(10,14,39,.5);
+    border:1px solid rgba(5,217,232,.15);position:relative;
+    counter-increment:step;
+  }
+  .step::before{
+    content:"0" counter(step);
+    font-family:'Orbitron';font-size:48px;font-weight:900;
+    color:transparent;-webkit-text-stroke:1px var(--red);
+    position:absolute;top:10px;right:20px;opacity:.6;
+  }
+  .step h4{font-family:'Orbitron';font-size:16px;margin-bottom:10px;letter-spacing:1px}
+  .step p{color:var(--muted);font-size:14px;line-height:1.7;font-family:'Rajdhani'}
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-banner{
+    position:relative;z-index:5;
+    margin:80px 5%;padding:60px 40px;
+    background:
+      linear-gradient(135deg,rgba(255,23,68,.15),rgba(5,217,232,.15)),
+      linear-gradient(180deg,rgba(10,14,39,.9),rgba(5,8,22,.9));
+    border:1px solid rgba(5,217,232,.3);
+    text-align:center;
+    clip-path:polygon(20px 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%,0 20px);
+    overflow:hidden;
+  }
+  .cta-banner::before{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(90deg,transparent,rgba(255,23,68,.1),transparent),
+      linear-gradient(90deg,transparent,rgba(5,217,232,.1),transparent);
+    animation:bannerSweep 4s linear infinite;
+  }
+  @keyframes bannerSweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .cta-banner h2{
+    font-family:'Orbitron';font-size:clamp(28px,4vw,44px);
+    margin-bottom:16px;letter-spacing:-1px;
+    background:linear-gradient(90deg,#fff,var(--gold),var(--red));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    position:relative;
+  }
+  .cta-banner p{color:var(--muted);margin-bottom:28px;font-family:'Rajdhani';font-size:17px;position:relative}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    position:relative;z-index:5;
+    padding:50px 5% 30px;
+    border-top:1px solid rgba(5,217,232,.15);
+    background:rgba(0,8,20,.6);
+    text-align:center;
+  }
+  .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;max-width:1200px;margin:0 auto 30px}
+  .contract{
+    font-family:'Rajdhani';font-size:12px;letter-spacing:2px;
+    color:var(--muted);padding:10px 16px;
+    border:1px dashed rgba(5,217,232,.3);
+    word-break:break-all;max-width:100%;
+  }
+  .contract strong{color:var(--blue-2)}
+  .copy{color:var(--muted);font-size:13px;font-family:'Rajdhani';letter-spacing:1px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:rgba(0,8,20,.95);padding:20px;gap:18px;border-bottom:1px solid rgba(5,217,232,.2)}
+    .nav-links.open{display:flex}
+    .menu-toggle{display:block}
+    .tokenomics-grid{grid-template-columns:1fr}
+    .flag-logo{width:160px;height:160px}
+    .flag-logo::after{font-size:9px}
+  }
+  @media (max-width:520px){
+    .cta-row{flex-direction:column;align-items:stretch}
+    .btn{justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<div id="starfield"></div>
+<div class="grid-overlay"></div>
+<div class="scanlines"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-flag"></div>
+    <span class="usa">USA</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#features">Features</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#buy">How to Buy</a>
+    <a href="https://stellarterm.com/#exchange/XLM-native/USA-GA24WP6KLH2ANH4XNMXVTCBL2ZPC2XH6WUPI6MTMJ5OZEZNPIQHW3USA" target="_blank" rel="noopener" class="btn btn-primary"><span>Trade on StellarTerm</span></a>
+  </div>
+  <button class="menu-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="tag"><span class="dot"></span> LIVE ON STELLAR NETWORK</div>
+
+    <div class="flag-logo">
+      <div class="ring"></div>
+      <div class="ring2"></div>
+    </div>
+
+    <h1><span class="glitch">USA</span> TOKEN</h1>
+    <p class="hero-sub">
+      The sovereign digital asset of the new era. <b>300,000,000,000 USA</b> minted on the
+      <b>Stellar Blockchain</b> — built for speed, transparency, and borderless value.
+    </p>
+
+    <div class="cta-row">
+      <a href="https://stellarterm.com/#exchange/XLM-native/USA-GA24WP6KLH2ANH4XNMXVTCBL2ZPC2XH6WUPI6MTMJ5OZEZNPIQHW3USA" target="_blank" rel="noopener" class="btn btn-primary">
+        <span>⚡ Trade on StellarTerm</span>
+      </a>
+      <a href="#about" class="btn btn-ghost">Explore Protocol</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-label">Total Supply</div>
+    <div class="stat-value">300B</div>
+    <div class="stat-sub">USA Tokens Minted</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Network</div>
+    <div class="stat-value">STELLAR</div>
+    <div class="stat-sub">5-second finality</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Asset Code</div>
+    <div class="stat-value">USA</div>
+    <div class="stat-sub">On-chain identifier</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Status</div>
+    <div class="stat-value">ACTIVE</div>
+    <div class="stat-sub">Public trading live</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="block" id="about">
+  <h2 class="section-title">A New Digital Standard</h2>
+  <p class="section-sub">USA is more than a token — it's a declaration. Forged on Stellar's lightning-fast ledger, it carries the weight of a nation and the velocity of the future.</p>
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>Instant Settlement</h3>
+      <p>Transactions confirm in under 5 seconds on the Stellar Consensus Protocol. No waiting, no congestion.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <h3>Verifiable Supply</h3>
+      <p>Every one of the 300 billion USA tokens is traceable on-chain. Full transparency, zero ambiguity.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🌐</div>
+      <h3>Borderless Access</h3>
+      <p>Trade globally through StellarTerm and any Stellar-compatible wallet. No borders. No barriers.</p>
+    </div>
+    
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section class="block" id="tokenomics">
+  <h2 class="section-title">Tokenomics</h2>
+  <p class="section-sub">Fixed. Finite. Uncompromising.</p>
+  <div class="tokenomics-grid">
+    <div>
+      <div class="token-bar"><div class="fill" style="width:100%">100% — PUBLIC CIRCULATION</div></div>
+      <div class="token-bar"><div class="fill" style="width:60%;background:linear-gradient(90deg,var(--gold),var(--red))">60% — LIQUIDITY POOL</div></div>
+      <div class="token-bar"><div class="fill" style="width:25%;background:linear-gradient(90deg,var(--blue),var(--blue-2))">25% — COMMUNITY</div></div>
+      <div class="token-bar"><div class="fill" style="width:15%;background:linear-gradient(90deg,#fff,var(--muted))">15% — RESERVE</div></div>
+    </div>
+    <div class="token-info">
+      <p><strong>ASSET CODE:</strong> USA</p>
+      <p><strong>ISSUER:</strong> GA24WP6KLH2ANH4XNMXVTCBL2ZPC2XH6WUPI6MTMJ5OZEZNPIQHW3USA</p>
+      <p><strong>BLOCKCHAIN:</strong> Stellar (Public Network)</p>
+      <p><strong>TOTAL SUPPLY:</strong> 300,000,000,000 USA</p>
+      <p><strong>DECIMALS:</strong> 7 (Stellar standard)</p>
+      <p><strong>TRADING PAIR:</strong> USA / XLM</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO BUY -->
+<section class="block" id="buy">
+  <h2 class="section-title">How to Acquire USA</h2>
+  <p class="section-sub">Four steps to enter the protocol.</p>
+  <div class="steps">
+    <div class="step">
+      <h4>Get a Stellar Wallet</h4>
+      <p>Download Lobstr, Rabet, or any Stellar-compatible wallet and fund it with XLM.</p>
+    </div>
+    <div class="step">
+      <h4>Open StellarTerm</h4>
+      <p>Visit StellarTerm and connect your wallet to access the decentralized exchange.</p>
+    </div>
+    <div class="step">
+      <h4>Add USA Asset</h4>
+      <p>Search for the USA asset using the issuer address and add it to your wallet.</p>
+    </div>
+    <div class="step">
+      <h4>Trade XLM → USA</h4>
+      <p>Place your order on the USA/XLM pair and confirm. Welcome to the network.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>JOIN THE MOVEMENT</h2>
+  <p>Trade USA now on the world's leading Stellar DEX.</p>
+  <a href="https://stellarterm.com/#exchange/XLM-native/USA-GA24WP6KLH2ANH4XNMXVTCBL2ZPC2XH6WUPI6MTMJ5OZEZNPIQHW3USA" target="_blank" rel="noopener" class="btn btn-primary" style="position:relative">
+    <span>🚀 Launch StellarTerm</span>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="logo">
+      <div class="logo-flag"></div>
+      <span class="usa">USA</span>
+    </div>
+    <div class="contract">
+      <strong>ISSUER:</strong> GA24WP6KLH2ANH4XNMXVTCBL2ZPC2XH6WUPI6MTMJ5OZEZNPIQHW3USA
+    </div>
+  </div>
+  <div class="copy">© 2026 USA TOKEN · STELLAR NETWORK · ALL RIGHTS RESERVED</div>
+</footer>
+
+<script>
+  // ---------- STAR GENERATION ----------
+  const field = document.getElementById('starfield');
+  const STAR_COUNT = 180;
+  const colors = ['', 'red', 'blue', 'gold'];
+  const stars = [];
+
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const s = document.createElement('div');
+    s.className = 'star ' + colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    s.style.left = x + '%';
+    s.style.top = y + '%';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    field.appendChild(s);
+    stars.push({
+      el: s,
+      baseX: x,
+      baseY: y,
+      depth: Math.random() * 0.8 + 0.2 // parallax depth
+    });
+  }
+
+  // ---------- PARALLAX ON SCROLL ----------
+  let scrollY = 0;
+  let targetY = 0;
+  let mouseX = 0, mouseY = 0;
+  let targetMX = 0, targetMY = 0;
+
+  window.addEventListener('scroll', () => {
+    targetY = window.scrollY;
+  }, { passive: true });
+
+  window.addEventListener('mousemove', (e) => {
+    targetMX = (e.clientX / window.innerWidth - 0.5);
+    targetMY = (e.clientY / window.innerHeight - 0.5);
+  });
+
+  function animate() {
+    scrollY += (targetY - scrollY) * 0.08;
+    mouseX += (targetMX - mouseX) * 0.08;
+    mouseY += (targetMY - mouseY) * 0.08;
+
+    for (const s of stars) {
+      const offsetX = mouseX * 40 * s.depth;
+      const offsetY = (scrollY * 0.3 + mouseY * 30) * s.depth;
+      s.el.style.transform = `translate(${offsetX}px, ${-offsetY}px)`;
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // ---------- CLOSE MOBILE MENU ON LINK CLICK ----------
+  document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
